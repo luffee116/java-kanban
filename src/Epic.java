@@ -9,7 +9,8 @@ public class Epic extends Task {
     }
 
     public ArrayList<Integer> getSubtasksId() {
-        return subtasksId;
+        ArrayList<Integer> history = subtasksId;
+        return history;
     }
 
     public void addSubtaskId(int subtaskId) {
@@ -17,15 +18,13 @@ public class Epic extends Task {
     }
 
     public void deleteSubtaskId(int subtaskId){
-        int index = 0;
-        for (int id : subtasksId){
-            if (id == subtaskId){
-                subtasksId.remove(index);
-            } else {
-                index++;
-            }
-        }
+        subtasksId.remove(Integer.valueOf(subtaskId));
     }
+
+    public void removeAllSubtasksID(){
+        subtasksId.clear();
+    }
+
 
     @Override
     public String toString() {
