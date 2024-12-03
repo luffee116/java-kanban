@@ -28,7 +28,7 @@ public class TaskManager {
     }
 
     public void removeAllSubtasks() {
-        for (Epic epic: epics.values()){
+        for (Epic epic : epics.values()) {
             epic.removeAllSubtasksID();
             updateEpicStatus(epic);
         }
@@ -57,9 +57,9 @@ public class TaskManager {
     public void createSubtask(Subtask subtask) {
         if (subtask != null && subtask.getClass() == Subtask.class) {
             Epic epic = epics.get(subtask.getEpicID());
-            if (epic != null){
+            if (epic != null) {
                 subtask.setId(generateId());
-                subtasks.put(subtask.getId(),subtask);
+                subtasks.put(subtask.getId(), subtask);
                 epic.addSubtaskId(subtask.getId());
                 updateEpicStatus(epic);
             }
@@ -103,8 +103,7 @@ public class TaskManager {
         Epic existingEpic = epics.get(updatedEpic.getId());
         existingEpic.title = updatedEpic.title;
         existingEpic.description = updatedEpic.description;
-        epics.put(existingEpic.getId(), existingEpic);
-        updateEpicStatus(existingEpic);
+        // ИСПРАВЛЕНО 03.12.2024
     }
 
     private void updateEpicStatus(Epic epic) {
@@ -113,8 +112,9 @@ public class TaskManager {
         boolean allDone = true;
         boolean anyInProgress = false;
 
-        if (subtasksId.isEmpty()){
+        if (subtasksId.isEmpty()) {
             epic.setStatus(Status.NEW);
+            return; //ИСПРАВЛЕНО (03.12.2024)
         }
 
         for (int subtaskId : subtasksId) {
@@ -137,37 +137,38 @@ public class TaskManager {
         }
     }
 
-    public void removeTaskById(int taskId){
+    public void removeTaskById(int taskId) {
         tasks.remove(taskId);
     }
 
-    public void removeSubtaskById(int subtaskId){
+    public void removeSubtaskById(int subtaskId) {
         Subtask subtask = subtasks.get(subtaskId);
         if (subtask != null) {
             Epic epic = epics.get(subtask.getEpicID());
             subtasks.remove(subtaskId);
             epic.deleteSubtaskId(subtask.getId());
-            updateEpic(epic);
+            updateEpicStatus(epic); // ИСПРАВЛЕНО 03.12.2024
         }
     }
 
-    public void removeEpicById (int epicId){
+    public void removeEpicById(int epicId) {
         Epic epic = epics.get(epicId);
-        for (int subtaskId : epic.getSubtasksId()){
-            subtasks.remove(subtaskId);
+        if (epic != null) { // ИСПРАВЛЕНО 03.12.2024
+            for (int subtaskId : epic.getSubtasksId()) {
+                subtasks.remove(subtaskId);
+            }
+            epics.remove(epicId);
         }
-        epics.remove(epicId);
     }
 
     public ArrayList<Subtask> getSubtasksOfEpic(int epicId) {
         Epic epic = epics.get(epicId);
         ArrayList<Subtask> subtasksOut = new ArrayList<>();
-        for (int subtaskId : epic.getSubtasksId()){
-            subtasksOut.add(subtasks.get(subtaskId));
+        if (epic != null) { // ИСПРАВЛЕНО 03.12.2024
+            for (int subtaskId : epic.getSubtasksId()) {
+                subtasksOut.add(subtasks.get(subtaskId));
+            }
         }
         return subtasksOut;
     }
-
-
-
 }

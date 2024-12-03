@@ -22,9 +22,9 @@ public class Main {
 //        System.out.println(taskManager.getAllTasks());
 //        System.out.println(taskManager.getAllSubtasks());
         System.out.println(taskManager.getAllEpics());
-//
+
         System.out.println("1––––––––––––");
-//
+
         Subtask updatedSubtask1 = new Subtask("Первое", "Приготовить борщ", Status.DONE, epic1.getId());
         updatedSubtask1.setId(subtask1.getId());
         taskManager.updateSubtask(updatedSubtask1);
@@ -33,6 +33,12 @@ public class Main {
         taskManager.updateSubtask(updatedSubtask2);
 
         System.out.println(taskManager.getSubtasksOfEpic(epic1.getId()));
-
+        Epic epic3 = new Epic("test","test");
+        taskManager.createEpic(epic3);
+        Subtask subtask4 = new Subtask("test", "test", Status.IN_PROGRESS, epic3.getId());
+        taskManager.createSubtask(subtask4);
+        System.out.println(taskManager.getAllEpics());  // смотрим текущий статус епика с сабтаском (IN_PROGRESS)
+        taskManager.removeSubtaskById(subtask4.getId()); // удаляем из эпика сабтакс
+        System.out.println(taskManager.getAllEpics()); // получаем обновленный статус (NEW) тк эпик пустой.
     }
 }
