@@ -27,7 +27,7 @@ class InMemoryTaskManagerTest {
     @Test
     public void testCreateTask(){
         taskManager.createTask(task1);
-        String expected = "[model.Task {Название = 'Test', Описание ='Test', id =1, Статус =NEW}]";
+        String expected = "[model.Task {Название = 'Хлеб', Описание ='Купить', id =1, Статус =NEW}]";
         String actually = taskManager.getAllTasks().toString();
         Assertions.assertEquals(expected, actually);
     }
@@ -37,7 +37,7 @@ class InMemoryTaskManagerTest {
         taskManager.createEpic(epic1);
         Subtask subtaskTest = new Subtask("Test", "test", Status.NEW,epic1.getId());
         taskManager.createSubtask(subtaskTest);
-        String expected = "[model.Subtask {, Название = 'Хлеб', Описание = 'Купить', model.Epic Id = 1, Статус = NEW}]";
+        String expected = "[model.Subtask {, Название = 'Test', Описание = 'test', model.Epic Id = 1, Статус = NEW}]";
         String actually = taskManager.getAllSubtasks().toString();
         Assertions.assertEquals(expected,actually);
     }
@@ -73,7 +73,7 @@ class InMemoryTaskManagerTest {
     public void testGetTask(){
         taskManager.createTask(task1);
         String actually = taskManager.getTaskById(task1.getId()).toString();
-        String expected = "model.Task {Название = 'Test', Описание ='Test', id =1, Статус =NEW}";
+        String expected = "model.Task {Название = 'Хлеб', Описание ='Купить', id =1, Статус =NEW}";
         Assertions.assertEquals(expected,actually);
     }
 

@@ -21,7 +21,7 @@ class SubtaskTest {
 
     @Test
     void testGetEpicID(){
-        int expected = 1;
+        int expected = 2;
         int actual = subtask2.getEpicID();
         Assertions.assertEquals(expected,actual);
     }
