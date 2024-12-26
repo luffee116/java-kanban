@@ -1,44 +1,72 @@
+import manager.Manager;
+import manager.TaskManager;
+import model.Epic;
+import model.Status;
+import model.Subtask;
+import model.Task;
+
 public class Main {
 
     public static void main(String[] args) {
-        TaskManager taskManager = new TaskManager();
-        Task task1 = new Task("Пол", "Пропылесосить и помыть", Status.NEW);
+        TaskManager taskManager = Manager.getDefault();
+
+        // Создать несколько задач разного типа.
+        Task task1 = new Task(
+                "Домашка", "Выполнить ТЗ", Status.NEW);
+        Task task2 = new Task(
+                "Обед", "Приготовить макароны", Status.DONE);
         taskManager.createTask(task1);
-        Task task2 = new Task("Окна", "Протереть внутри и снаружи", Status.NEW);
         taskManager.createTask(task2);
 
-        Epic epic1 = new Epic("Обед", "Приготовить еду на обед");
+        Epic epic1 = new Epic(
+                "Уборка дома", "Выполнить уборку дома");
+        Epic epic2 = new Epic(
+                "Дизайн", "Рассмотреть дизайн квартиры");
         taskManager.createEpic(epic1);
-        Subtask subtask1 = new Subtask("Первое", "Приготовить борщ", Status.NEW, epic1.getId());
-        taskManager.createSubtask(subtask1);
-        Subtask subtask2 = new Subtask("Второе", "Приготовить макароны по-флотски", Status.NEW, epic1.getId());
-        taskManager.createSubtask(subtask2);
-
-        Epic epic2 = new Epic("Универ", "Дела по универу");
         taskManager.createEpic(epic2);
-        Subtask subtask3 = new Subtask("Java", "Написать код – трекер задач", Status.DONE, epic2.getId());
+
+        Subtask subtask1 = new Subtask(
+                "Полы", "Помыть полы", Status.NEW, epic1.getId());
+        Subtask subtask2 = new Subtask(
+                "Посуда", "Помыть посуду", Status.IN_PROGRESS, epic1.getId());
+        Subtask subtask3 = new Subtask(
+                "Ванная", "Посмотреть дизайны ванной 3.5кв.м.", Status.NEW, epic2.getId());
+        taskManager.createSubtask(subtask1);
+        taskManager.createSubtask(subtask2);
         taskManager.createSubtask(subtask3);
 
-//        System.out.println(taskManager.getAllTasks());
-//        System.out.println(taskManager.getAllSubtasks());
-        System.out.println(taskManager.getAllEpics());
+        //Вызвать разные методы интерфейса TaskManager и напечатать историю после каждого вызова.
+        taskManager.getTaskById(task1.getId());
+        taskManager.getTaskById(task2.getId());
+        taskManager.getEpicById(epic1.getId());
+        taskManager.getSubtaskById(subtask2.getId());
+        taskManager.getSubtaskById(subtask1.getId());
+        taskManager.getSubtaskById(subtask3.getId());
+        taskManager.getEpicById(epic2.getId());
+        printAllTasks(taskManager);
+    }
 
-        System.out.println("1––––––––––––");
+    private static void printAllTasks(TaskManager manager) {
+        System.out.println("Задачи:");
+        for (Task task : manager.getAllTasks()) {
+            System.out.println(task);
+        }
+        System.out.println("Эпики:");
+        for (Task epic : manager.getAllEpics()) {
+            System.out.println(epic);
 
-        Subtask updatedSubtask1 = new Subtask("Первое", "Приготовить борщ", Status.DONE, epic1.getId());
-        updatedSubtask1.setId(subtask1.getId());
-        taskManager.updateSubtask(updatedSubtask1);
-        Subtask updatedSubtask2 = new Subtask("Второе", "Приготовить макароны по-флотски", Status.IN_PROGRESS, epic1.getId());
-        updatedSubtask2.setId(subtask2.getId());
-        taskManager.updateSubtask(updatedSubtask2);
+            for (Task task : manager.getSubtasksOfEpic(epic.getId())) {
+                System.out.println("--> " + task);
+            }
+        }
+        System.out.println("Подзадачи:");
+        for (Task subtask : manager.getAllSubtasks()) {
+            System.out.println(subtask);
+        }
 
-        System.out.println(taskManager.getSubtasksOfEpic(epic1.getId()));
-        Epic epic3 = new Epic("test","test");
-        taskManager.createEpic(epic3);
-        Subtask subtask4 = new Subtask("test", "test", Status.IN_PROGRESS, epic3.getId());
-        taskManager.createSubtask(subtask4);
-        System.out.println(taskManager.getAllEpics());  // смотрим текущий статус епика с сабтаском (IN_PROGRESS)
-        taskManager.removeSubtaskById(subtask4.getId()); // удаляем из эпика сабтакс
-        System.out.println(taskManager.getAllEpics()); // получаем обновленный статус (NEW) тк эпик пустой.
+        System.out.println("История:");
+        for (Task task : manager.getHistory()) {
+            System.out.println(task);
+        }
     }
 }
