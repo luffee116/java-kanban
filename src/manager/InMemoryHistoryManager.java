@@ -5,6 +5,7 @@ import model.Task;
 import java.util.*;
 
 public class InMemoryHistoryManager implements HistoryManager {
+
     private Node<Task> head;
     private Node<Task> tail;
     private final Map<Integer, Node<Task>> receivedHistory;
@@ -14,6 +15,7 @@ public class InMemoryHistoryManager implements HistoryManager {
     }
 
     private static class Node<Task> {
+
         public Task data;
         public Node<Task>  next;
         public Node<Task> prev;
