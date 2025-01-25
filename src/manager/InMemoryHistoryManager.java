@@ -18,12 +18,13 @@ public class InMemoryHistoryManager implements HistoryManager {
         public Node<Task>  next;
         public Node<Task> prev;
 
-        public Node (Node<Task> prev, Task data, Node<Task> next) {
+        public Node(Node<Task> prev, Task data, Node<Task> next) {
             this.prev = prev;
             this.data = data;
             this.next = next;
         }
     }
+
     @Override
     public void add(Task task) {
         if (task != null) {
@@ -64,7 +65,7 @@ public class InMemoryHistoryManager implements HistoryManager {
         return tasks;
     }
 
-    public void removeNode(Node<Task> taskToDelete) {
+    private void removeNode(Node<Task> taskToDelete) {
        if (taskToDelete != null) {
            Node<Task> prev = taskToDelete.prev;
            Node<Task> next = taskToDelete.next;
