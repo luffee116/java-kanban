@@ -35,7 +35,7 @@ public class Epic extends Task {
     @Override
     public String toString() {
         return "model.Epic{" +
-                ", Название = '" + title+ '\'' +
+                ", Название = '" + title + '\'' +
                 ", Описание = '" + description + '\'' +
                 " Статус = " + status +
                 ", SubtasksId = " + subtasksId +
