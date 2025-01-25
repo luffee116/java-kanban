@@ -110,7 +110,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void updateTask(Task task) {
-        if (tasks == null || !tasks.containsKey(task.getId())) {
+        if (!tasks.containsKey(task.getId())) {
             return;
         }
         tasks.put(task.getId(), task);
