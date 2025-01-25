@@ -26,7 +26,7 @@ public class Subtask extends Task {
     public String toString() {
         return "model.Subtask {" +
                 ", Название = '" + title + '\'' +
-                ", Описание = '" + description+ '\'' +
+                ", Описание = '" + description + '\'' +
                 ", model.Epic Id = " + epicID +
                 ", Статус = " + status +
                 '}';
