@@ -22,8 +22,8 @@ public class InMemoryHistoryManagerTest {
         historyManager = Manager.getDefaultHistory();
         task1 = new Task(1,"Молоко", "Купить", Status.NEW);
         task2 = new Task(2,"Машина", "Помыть", Status.IN_PROGRESS);
-        epic1 = new Epic(3,"Домашка", "Выполнить");
-        epic2 = new Epic(4,"Уборка", "Убраться дома");
+        epic1 = new Epic(3,"Домашка", "Выполнить", Status.NEW);
+        epic2 = new Epic(4,"Уборка", "Убраться дома", Status.NEW);
         subtask1 = new Subtask(5, "Доделать спринт", "Быстро", Status.IN_PROGRESS, 3);
         subtask2 = new Subtask(6, "Помыть полы", "До прихода гостей", Status.DONE, 4);
     }

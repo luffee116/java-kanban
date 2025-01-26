@@ -14,7 +14,7 @@ class EpicTest {
 
     @BeforeEach
     public void init(){
-        epic1 = new Epic(1, "Гигиена", "Гигиена");
+        epic1 = new Epic(1, "Гигиена", "Гигиена", Status.NEW);
         epic2 = new Epic("Досуг", "Досуг");
         subtask1 = new Subtask(3,"Почистить зубы", "Тщательно",Status.DONE,epic1.getId());
         subtask2 = new Subtask(4, "Посмотреть кино", "Ужасы", Status.NEW, epic2.getId());

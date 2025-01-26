@@ -70,20 +70,21 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     private void removeNode(Node<Task> taskToDelete) {
        if (taskToDelete != null) {
-           taskToDelete.data = null;
+           final Node<Task> next = taskToDelete.next;
+           final Node<Task> prev = taskToDelete.prev;
 
            if (head == taskToDelete && tail == taskToDelete) {
                head = null;
                tail = null;
            } else if (head == taskToDelete) {
-               head = taskToDelete.next;
+               head = next;
                head.prev = null;
            } else if (tail == taskToDelete) {
                tail = taskToDelete.prev;
                tail.next = null;
            } else {
-               taskToDelete.prev.next = taskToDelete.next;
-               taskToDelete.next.prev = taskToDelete.prev;
+               prev.next = next;
+               next.prev = prev;
            }
 
        }

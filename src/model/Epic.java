@@ -5,14 +5,19 @@ import java.util.ArrayList;
 public class Epic extends Task {
     private final ArrayList<Integer> subtasksId;
 
-    public Epic(String title,String description) {
-        super(title,description, Status.NEW);
+    public Epic(String title, String description) {
+        super(title, description, Status.NEW);
         this.subtasksId = new ArrayList<>();
     }
 
-    public Epic(int id, String title, String description) {
-        super(id,title,description,Status.NEW);
+    public Epic(int id, String title, String description, Status status) {
+        super(id, title, description, status);
         this.subtasksId = new ArrayList<>();
+    }
+
+    @Override
+    public String formatToCVS() {
+        return String.format("%s,%s,%s,%s,%s,%s\n", getId(), TaskType.EPIC, getTitle(), getStatus(), getDescription(), getSubtasksId());
     }
 
     public ArrayList<Integer> getSubtasksId() {
