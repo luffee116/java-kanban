@@ -16,5 +16,4 @@ public class ManagerTest {
         HistoryManager manager = Manager.getDefaultHistory();
         Assertions.assertInstanceOf(InMemoryHistoryManager.class, manager);
     }
-
 }

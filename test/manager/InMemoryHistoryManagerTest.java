@@ -59,7 +59,9 @@ public class InMemoryHistoryManagerTest {
     }
 
     @Test
-    public void testMaxSizeOfHistoryIsTen() {
+    public void sizeOfStoriesShouldNotExceedSixElements () {
+        final int maxSize = 6;
+
         historyManager.add(task1); //1
         historyManager.add(task2); //2
         historyManager.add(subtask1); //3
@@ -69,14 +71,8 @@ public class InMemoryHistoryManagerTest {
         historyManager.add(task1); //1
         historyManager.add(task2); //2
         historyManager.add(subtask1); //3
-        historyManager.add(subtask2);
-        final int maxSize = 10;
+        historyManager.add(subtask2); //4
         Assertions.assertEquals(maxSize,historyManager.getHistory().size());
-
-        historyManager.add(epic1);
-        historyManager.add(epic2);
-        historyManager.add(task1);
-        Assertions.assertEquals(maxSize, historyManager.getHistory().size());
     }
 
 

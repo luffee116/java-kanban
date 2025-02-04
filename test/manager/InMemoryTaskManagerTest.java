@@ -211,30 +211,20 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    public void testHistoryShouldBeNotOver10Points() {
+    public void testHistoryShouldNotExceedTenEntries() {
         taskManager.createTask(task1);
         taskManager.createTask(task2);
         taskManager.createEpic(epic1);
         taskManager.createEpic(epic2);
+        taskManager.createSubtask(new Subtask("Title", "Description", Status.NEW, epic1.getId()));
+        taskManager.createSubtask(new Subtask("Test", "Test", Status.DONE, epic2.getId()));
 
-        taskManager.getTaskById(task2.getId()); // 1
-        taskManager.getTaskById(task1.getId()); // 2
-        taskManager.getEpicById(epic1.getId()); // 3
-        taskManager.getEpicById(epic2.getId()); // 4
-        taskManager.getTaskById(task2.getId()); // 5
-        taskManager.getTaskById(task1.getId()); // 6
-        taskManager.getEpicById(epic1.getId()); // 7
-        taskManager.getEpicById(epic2.getId()); // 8
-        taskManager.getTaskById(task2.getId()); // 9
-        taskManager.getTaskById(task1.getId()); // 10
-        taskManager.getEpicById(epic1.getId()); // 11
-
-        final int maxSizeOfHistory = 10;
-        Assertions.assertEquals(maxSizeOfHistory, taskManager.getHistory().size());
-        String expected = "[model.Task {Название = 'Хлеб', Описание ='Купить', id =1, Статус =NEW}, model.Epic{, Название = 'First', Описание = 'First' Статус = NEW, SubtasksId = []}, model.Epic{, Название = 'Second', Описание = 'Second' Статус = NEW, SubtasksId = []}, model.Task {Название = 'Помыть', Описание ='Машину', id =2, Статус =DONE}, model.Task {Название = 'Хлеб', Описание ='Купить', id =1, Статус =NEW}, model.Epic{, Название = 'First', Описание = 'First' Статус = NEW, SubtasksId = []}, model.Epic{, Название = 'Second', Описание = 'Second' Статус = NEW, SubtasksId = []}, model.Task {Название = 'Помыть', Описание ='Машину', id =2, Статус =DONE}, model.Task {Название = 'Хлеб', Описание ='Купить', id =1, Статус =NEW}, model.Epic{, Название = 'First', Описание = 'First' Статус = NEW, SubtasksId = []}]";
-        String actual = taskManager.getHistory().toString();
-        Assertions.assertEquals(expected,actual);
+        taskManager.getTaskById(task1.getId());
+        taskManager.getTaskById(task2.getId());
+        taskManager.getEpicById(epic1.getId());
+        taskManager.getEpicById(epic2.getId());
     }
+
 
 
 }

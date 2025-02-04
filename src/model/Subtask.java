@@ -4,12 +4,12 @@ public class Subtask extends Task {
 
     private int epicID;
 
-    public Subtask(String title, String description, Status status, int epicID){
+    public Subtask(String title, String description, Status status, int epicID) {
         super(title,description,status);
         this.epicID = epicID;
     }
 
-    public Subtask(int id, String title, String description, Status status, int epicID){
+    public Subtask(int id, String title, String description, Status status, int epicID) {
         super(id, title,description,status);
         this.epicID = epicID;
     }
@@ -18,7 +18,7 @@ public class Subtask extends Task {
         return epicID;
     }
 
-    public void setEpicID(int epicID){
+    public void setEpicID(int epicID) {
         this.epicID = epicID;
     }
 
@@ -26,7 +26,7 @@ public class Subtask extends Task {
     public String toString() {
         return "model.Subtask {" +
                 ", Название = '" + title + '\'' +
-                ", Описание = '" + description+ '\'' +
+                ", Описание = '" + description + '\'' +
                 ", model.Epic Id = " + epicID +
                 ", Статус = " + status +
                 '}';
