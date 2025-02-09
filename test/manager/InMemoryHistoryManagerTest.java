@@ -9,27 +9,27 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class InMemoryHistoryManagerTest {
-    private  HistoryManager historyManager;
+    private HistoryManager historyManager;
     private Task task1;
-    private  Task task2;
+    private Task task2;
     private Epic epic1;
     private Epic epic2;
     private Subtask subtask1;
-    private  Subtask subtask2;
+    private Subtask subtask2;
 
     @BeforeEach
-    public void init(){
+    public void init() {
         historyManager = Manager.getDefaultHistory();
-        task1 = new Task(1,"Молоко", "Купить", Status.NEW);
-        task2 = new Task(2,"Машина", "Помыть", Status.IN_PROGRESS);
-        epic1 = new Epic(3,"Домашка", "Выполнить", Status.NEW);
-        epic2 = new Epic(4,"Уборка", "Убраться дома", Status.NEW);
+        task1 = new Task(1, "Молоко", "Купить", Status.NEW);
+        task2 = new Task(2, "Машина", "Помыть", Status.IN_PROGRESS);
+        epic1 = new Epic(3, "Домашка", "Выполнить", Status.NEW);
+        epic2 = new Epic(4, "Уборка", "Убраться дома", Status.NEW);
         subtask1 = new Subtask(5, "Доделать спринт", "Быстро", Status.IN_PROGRESS, 3);
         subtask2 = new Subtask(6, "Помыть полы", "До прихода гостей", Status.DONE, 4);
     }
 
     @Test
-    public void testAddTaskAndGetTask(){
+    public void testAddTaskAndGetTask() {
         historyManager.add(task1);
         historyManager.add(task2);
         historyManager.add(epic1);
@@ -44,11 +44,11 @@ public class InMemoryHistoryManagerTest {
                 "model.Subtask {, Название = 'Доделать спринт', Описание = 'Быстро', model.Epic Id = 3, Статус = IN_PROGRESS}, " +
                 "model.Subtask {, Название = 'Помыть полы', Описание = 'До прихода гостей', model.Epic Id = 4, Статус = DONE}]";
         String actual = historyManager.getHistory().toString();
-        Assertions.assertEquals(expected,actual);
+        Assertions.assertEquals(expected, actual);
     }
 
     @Test
-    public void testAddNullTasks(){
+    public void testAddNullTasks() {
         Task task = null;
         Subtask subtask = null;
         Epic epic = null;
@@ -59,7 +59,7 @@ public class InMemoryHistoryManagerTest {
     }
 
     @Test
-    public void sizeOfStoriesShouldNotExceedSixElements () {
+    public void sizeOfStoriesShouldNotExceedSixElements() {
         final int maxSize = 6;
 
         historyManager.add(task1); //1
@@ -72,7 +72,7 @@ public class InMemoryHistoryManagerTest {
         historyManager.add(task2); //2
         historyManager.add(subtask1); //3
         historyManager.add(subtask2); //4
-        Assertions.assertEquals(maxSize,historyManager.getHistory().size());
+        Assertions.assertEquals(maxSize, historyManager.getHistory().size());
     }
 
 

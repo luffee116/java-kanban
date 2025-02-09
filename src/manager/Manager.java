@@ -2,7 +2,7 @@ package manager;
 
 import java.io.File;
 
-public class Manager  {
+public class Manager {
     private Manager() {
     }
 
@@ -14,7 +14,7 @@ public class Manager  {
         return new InMemoryHistoryManager();
     }
 
-    public static TaskManager getFileBackedTaskManager(File file){
+    public static TaskManager getFileBackedTaskManager(File file) {
         return new FileBackedTaskManager(file);
     }
 

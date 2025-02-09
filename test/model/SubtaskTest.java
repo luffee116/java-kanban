@@ -9,29 +9,29 @@ class SubtaskTest {
     private Subtask subtask2;
 
     @BeforeEach
-    public void init(){
-        subtask1 = new Subtask(1, "Test", "Test",Status.NEW, 1);
+    public void init() {
+        subtask1 = new Subtask(1, "Test", "Test", Status.NEW, 1);
         subtask2 = new Subtask(1, "Another", "Another", Status.DONE, 2);
     }
 
     @Test
-    void testEqualsSubtask(){
+    void testEqualsSubtask() {
         Assertions.assertEquals(subtask1, subtask2);
     }
 
     @Test
-    void testGetEpicID(){
+    void testGetEpicID() {
         int expected = 2;
         int actual = subtask2.getEpicID();
-        Assertions.assertEquals(expected,actual);
+        Assertions.assertEquals(expected, actual);
     }
 
     @Test
-    void testSetEpicID(){
+    void testSetEpicID() {
         int expected = 3;
         subtask1.setEpicID(3);
         int actual = subtask1.getEpicID();
-        Assertions.assertEquals(expected,actual);
+        Assertions.assertEquals(expected, actual);
     }
 
 

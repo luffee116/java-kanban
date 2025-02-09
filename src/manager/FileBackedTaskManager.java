@@ -84,12 +84,11 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
                     lines[2],
                     lines[4],
                     returnStatusFromString(lines[3])));
-            case SUBTASK ->
-                super.createSubtask(new Subtask(Integer.parseInt(lines[0]),
-                lines[2],
-                lines[4],
-                returnStatusFromString(lines[3]),
-                Integer.parseInt(lines[lines.length-1])));
+            case SUBTASK -> super.createSubtask(new Subtask(Integer.parseInt(lines[0]),
+                    lines[2],
+                    lines[4],
+                    returnStatusFromString(lines[3]),
+                    Integer.parseInt(lines[lines.length - 1])));
             case EPIC -> super.createEpic(new Epic(Integer.parseInt(lines[0]),
                     lines[2],
                     lines[4],
