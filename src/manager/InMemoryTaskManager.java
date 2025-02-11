@@ -221,18 +221,18 @@ public class InMemoryTaskManager implements TaskManager {
         return subtasksOut;
     }
 
-    protected void addTaskFromFile(String[] lines, TaskType taskType, Status status){
-        switch (taskType){
+    protected void addTaskFromFile(String[] lines, TaskType taskType, Status status) {
+        switch (taskType) {
             case TASK ->
-                    tasks.put(Integer.parseInt(lines[0]), new Task(Integer.parseInt(lines[0]),lines[2], lines[4], status));
+                    tasks.put(Integer.parseInt(lines[0]), new Task(Integer.parseInt(lines[0]), lines[2], lines[4], status));
             case SUBTASK -> {
-                subtasks.put(Integer.parseInt(lines[0]), new Subtask(Integer.parseInt(lines[0]),lines[2], lines[4], status, Integer.parseInt(lines[lines.length - 1])));
-                Epic tmpEpic = epics.get(Integer.parseInt(lines[lines.length-1]));
+                subtasks.put(Integer.parseInt(lines[0]), new Subtask(Integer.parseInt(lines[0]), lines[2], lines[4], status, Integer.parseInt(lines[lines.length - 1])));
+                Epic tmpEpic = epics.get(Integer.parseInt(lines[lines.length - 1]));
                 tmpEpic.addSubtaskId(Integer.parseInt(lines[0]));
                 updateEpic(tmpEpic);
             }
             case EPIC ->
-                epics.put(Integer.parseInt(lines[0]), new Epic(Integer.parseInt(lines[0]),lines[2], lines[4], status));
+                    epics.put(Integer.parseInt(lines[0]), new Epic(Integer.parseInt(lines[0]), lines[2], lines[4], status));
         }
     }
 }

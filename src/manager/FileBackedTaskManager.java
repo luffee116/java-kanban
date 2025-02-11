@@ -80,8 +80,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         String[] lines = line.trim().split(",");
         TaskType taskType = TaskType.valueOf(lines[1]);
         switch (taskType) {
-            case TASK, SUBTASK, EPIC ->
-            addTaskFromFile(lines, taskType, returnStatusFromString(lines[3]));
+            case TASK, SUBTASK, EPIC -> addTaskFromFile(lines, taskType, returnStatusFromString(lines[3]));
         }
     }
 
