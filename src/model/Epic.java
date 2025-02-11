@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 
 public class Epic extends Task {
-    private final ArrayList<Integer> subtasksId;
+    protected final ArrayList<Integer> subtasksId;
 
     public Epic(String title, String description) {
         super(title, description, Status.NEW);
@@ -17,7 +17,7 @@ public class Epic extends Task {
 
     @Override
     public String formatToCVS() {
-        return String.format("%s,%s,%s,%s,%s,%s\n", getId(), TaskType.EPIC, getTitle(), getStatus(), getDescription(), getSubtasksId());
+        return String.format("%s,%s,%s,%s,%s\n", getId(), TaskType.EPIC, getTitle(), getStatus(), getDescription());
     }
 
     public ArrayList<Integer> getSubtasksId() {
@@ -40,10 +40,8 @@ public class Epic extends Task {
     @Override
     public String toString() {
         return "model.Epic{" +
-                ", Название = '" + title + '\'' +
+                " Название = '" + title + '\'' +
                 ", Описание = '" + description + '\'' +
-                " Статус = " + status +
-                ", SubtasksId = " + subtasksId +
-                '}';
+                " Статус = " + status + '}';
     }
 }

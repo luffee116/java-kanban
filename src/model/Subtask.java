@@ -30,9 +30,9 @@ public class Subtask extends Task {
     @Override
     public String toString() {
         return "model.Subtask {" +
-                ", Название = '" + title + '\'' +
+                " Название = '" + title + '\'' +
                 ", Описание = '" + description + '\'' +
-                ", model.Epic Id = " + epicID +
+                ", Epic Id = " + epicID +
                 ", Статус = " + status +
                 '}';
     }

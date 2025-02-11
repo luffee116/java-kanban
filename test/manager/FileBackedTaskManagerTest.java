@@ -126,7 +126,7 @@ public class FileBackedTaskManagerTest {
         Epic tmp = taskManager.getEpicById(epic1.getId());
         taskManager.updateEpic(tmp);
         TaskManager loaded = Manager.loadFromFile(path.toFile());
-        Assertions.assertEquals(taskManager.getAllEpics(), loaded.getAllEpics());
+        Assertions.assertEquals(taskManager.getAllEpics().toString(), loaded.getAllEpics().toString());
         Assertions.assertEquals(taskManager.getAllSubtasks().toString(), loaded.getAllSubtasks().toString());
     }
 

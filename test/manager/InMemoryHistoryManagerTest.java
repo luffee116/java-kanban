@@ -37,12 +37,14 @@ public class InMemoryHistoryManagerTest {
         historyManager.add(subtask1);
         historyManager.add(subtask2);
 
-        String expected = "[model.Task {Название = 'Молоко', Описание ='Купить', id =1, Статус =NEW}, " +
-                "model.Task {Название = 'Машина', Описание ='Помыть', id =2, Статус =IN_PROGRESS}, " +
-                "model.Epic{, Название = 'Домашка', Описание = 'Выполнить' Статус = NEW, SubtasksId = []}, " +
-                "model.Epic{, Название = 'Уборка', Описание = 'Убраться дома' Статус = NEW, SubtasksId = []}, " +
-                "model.Subtask {, Название = 'Доделать спринт', Описание = 'Быстро', model.Epic Id = 3, Статус = IN_PROGRESS}, " +
-                "model.Subtask {, Название = 'Помыть полы', Описание = 'До прихода гостей', model.Epic Id = 4, Статус = DONE}]";
+        String expected = "[model.Task { Название = 'Молоко', Описание = 'Купить', id = 1, Статус = NEW}, " +
+                "model.Task { Название = 'Машина', Описание = 'Помыть', id = 2, Статус = IN_PROGRESS}, " +
+                "model.Epic{ Название = 'Домашка', Описание = 'Выполнить' Статус = NEW}, " +
+                "model.Epic{ Название = 'Уборка', Описание = 'Убраться дома' Статус = NEW}, " +
+                "model.Subtask { Название = 'Доделать спринт', Описание = 'Быстро', " +
+                "Epic Id = 3, Статус = IN_PROGRESS}, " +
+                "model.Subtask { Название = 'Помыть полы', Описание = 'До прихода гостей', " +
+                "Epic Id = 4, Статус = DONE}]";
         String actual = historyManager.getHistory().toString();
         Assertions.assertEquals(expected, actual);
     }

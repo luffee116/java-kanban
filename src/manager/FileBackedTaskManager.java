@@ -8,7 +8,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FileBackedTaskManager extends InMemoryTaskManager implements TaskManager {
+public class FileBackedTaskManager extends InMemoryTaskManager {
 
     private final File file;
 
@@ -16,7 +16,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         this.file = file;
     }
 
-    public void save() throws ManagerSaveException {
+    private void save() throws ManagerSaveException {
         final String title = "id,type,name,status,description,epic\n";
         List<String> list = new ArrayList<>();
         list.add(title);
@@ -33,7 +33,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         saveToCVS(list);
     }
 
-    public void saveToCVS(List<String> list) throws ManagerSaveException {
+    private void saveToCVS(List<String> list) throws ManagerSaveException {
         if (file == null) {
             throw new ManagerSaveException("Сохранение данных в файл недоступно");
         }
@@ -42,7 +42,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
                 br.write(s);
             }
         } catch (IOException e) {
-            throw new RuntimeException();
+            throw new ManagerSaveException("Невозможно прочитать файл");
         }
     }
 
@@ -59,7 +59,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         }
     }
 
-    public List<String> loadFromCVS() throws ManagerSaveException {
+    private List<String> loadFromCVS() throws ManagerSaveException {
         if (file == null) {
             throw new ManagerSaveException("Невозможно загрузить данные из файла");
         }
@@ -76,27 +76,16 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         return output;
     }
 
-    public void formatFromCVS(String line) {
+    private void formatFromCVS(String line) {
         String[] lines = line.trim().split(",");
         TaskType taskType = TaskType.valueOf(lines[1]);
         switch (taskType) {
-            case TASK -> super.createTask(new Task(Integer.parseInt(lines[0]),
-                    lines[2],
-                    lines[4],
-                    returnStatusFromString(lines[3])));
-            case SUBTASK -> super.createSubtask(new Subtask(Integer.parseInt(lines[0]),
-                    lines[2],
-                    lines[4],
-                    returnStatusFromString(lines[3]),
-                    Integer.parseInt(lines[lines.length - 1])));
-            case EPIC -> super.createEpic(new Epic(Integer.parseInt(lines[0]),
-                    lines[2],
-                    lines[4],
-                    returnStatusFromString(lines[3])));
+            case TASK, SUBTASK, EPIC ->
+            addTaskFromFile(lines, taskType, returnStatusFromString(lines[3]));
         }
     }
 
-    public Status returnStatusFromString(String line) {
+    protected Status returnStatusFromString(String line) {
         switch (line) {
             case "NEW" -> {
                 return Status.NEW;
