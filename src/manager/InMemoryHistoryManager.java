@@ -17,7 +17,7 @@ public class InMemoryHistoryManager implements HistoryManager {
     private static class Node<E> {
 
         public E data;
-        public Node<E>  next;
+        public Node<E> next;
         public Node<E> prev;
 
         public Node(Node<E> prev, E data, Node<E> next) {
@@ -69,24 +69,24 @@ public class InMemoryHistoryManager implements HistoryManager {
     }
 
     private void removeNode(Node<Task> taskToDelete) {
-       if (taskToDelete != null) {
-           final Node<Task> next = taskToDelete.next;
-           final Node<Task> prev = taskToDelete.prev;
+        if (taskToDelete != null) {
+            final Node<Task> next = taskToDelete.next;
+            final Node<Task> prev = taskToDelete.prev;
 
-           if (head == taskToDelete && tail == taskToDelete) {
-               head = null;
-               tail = null;
-           } else if (head == taskToDelete) {
-               head = next;
-               head.prev = null;
-           } else if (tail == taskToDelete) {
-               tail = taskToDelete.prev;
-               tail.next = null;
-           } else {
-               prev.next = next;
-               next.prev = prev;
-           }
+            if (head == taskToDelete && tail == taskToDelete) {
+                head = null;
+                tail = null;
+            } else if (head == taskToDelete) {
+                head = next;
+                head.prev = null;
+            } else if (tail == taskToDelete) {
+                tail = taskToDelete.prev;
+                tail.next = null;
+            } else {
+                prev.next = next;
+                next.prev = prev;
+            }
 
-       }
+        }
     }
 }

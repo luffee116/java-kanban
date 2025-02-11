@@ -1,9 +1,6 @@
 package manager;
 
-import model.Epic;
-import model.Status;
-import model.Subtask;
-import model.Task;
+import model.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,7 +40,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void removeAllTasks() {
-        for (Integer entry: tasks.keySet()) {
+        for (Integer entry : tasks.keySet()) {
             history.remove(entry);
         }
         tasks.clear();
@@ -51,7 +48,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void removeAllSubtasks() {
-        for (Integer entry: subtasks.keySet()) {
+        for (Integer entry : subtasks.keySet()) {
             history.remove(entry);
         }
         for (Epic epic : epics.values()) {
@@ -63,10 +60,10 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void removeAllEpics() {
-        for (Integer entry: epics.keySet()) {
+        for (Integer entry : epics.keySet()) {
             history.remove(entry);
         }
-        for (Integer entry: subtasks.keySet()) {
+        for (Integer entry : subtasks.keySet()) {
             history.remove(entry);
         }
         epics.clear();
@@ -222,5 +219,20 @@ public class InMemoryTaskManager implements TaskManager {
             }
         }
         return subtasksOut;
+    }
+
+    protected void addTaskFromFile(String[] lines, TaskType taskType, Status status) {
+        switch (taskType) {
+            case TASK ->
+                    tasks.put(Integer.parseInt(lines[0]), new Task(Integer.parseInt(lines[0]), lines[2], lines[4], status));
+            case SUBTASK -> {
+                subtasks.put(Integer.parseInt(lines[0]), new Subtask(Integer.parseInt(lines[0]), lines[2], lines[4], status, Integer.parseInt(lines[lines.length - 1])));
+                Epic tmpEpic = epics.get(Integer.parseInt(lines[lines.length - 1]));
+                tmpEpic.addSubtaskId(Integer.parseInt(lines[0]));
+                updateEpic(tmpEpic);
+            }
+            case EPIC ->
+                    epics.put(Integer.parseInt(lines[0]), new Epic(Integer.parseInt(lines[0]), lines[2], lines[4], status));
+        }
     }
 }

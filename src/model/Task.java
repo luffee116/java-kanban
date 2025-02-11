@@ -8,6 +8,10 @@ public class Task {
     String description;
     Status status;
 
+    public String formatToCVS() {
+        return String.format("%s,%s,%s,%s,%s\n", getId(), TaskType.TASK, getTitle(), getStatus(), getDescription());
+    }
+
     public Task(String title, String description, Status status) {
         this.title = title;
         this.description = description;
@@ -69,10 +73,11 @@ public class Task {
     @Override
     public String toString() {
         return "model.Task {" +
-                "Название = '" + title + '\'' +
-                ", Описание ='" + description + '\'' +
-                ", id =" + id +
-                ", Статус =" + status +
+                " Название = '" + title + '\'' +
+                ", Описание = '" + description + '\'' +
+                ", id = " + id +
+                ", Статус = " + status +
                 '}';
     }
+
 }

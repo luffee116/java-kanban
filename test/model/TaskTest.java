@@ -21,62 +21,62 @@ class TaskTest {
     }
 
     @Test
-    public void testGetId(){
+    public void testGetId() {
         int expected = 1;
         int actually = task1.getId();
-        Assertions.assertEquals(expected,actually, "Не получен ID");
+        Assertions.assertEquals(expected, actually, "Не получен ID");
     }
 
     @Test
-    public void testSetId(){
+    public void testSetId() {
         int expected = 2;
         task1.setId(2);
         int actually = task1.getId();
-        Assertions.assertEquals(expected,actually, "ID не устанавливается");
+        Assertions.assertEquals(expected, actually, "ID не устанавливается");
     }
 
     @Test
-    public void testGetTitle(){
+    public void testGetTitle() {
         String expected = "Помыть пол";
         String actual = task1.getTitle();
-        Assertions.assertEquals(expected,actual);
+        Assertions.assertEquals(expected, actual);
     }
 
     @Test
-    public void testGetDescription(){
+    public void testGetDescription() {
         String expected = "Начисто";
         String actual = task1.getDescription();
-        Assertions.assertEquals(expected,actual);
+        Assertions.assertEquals(expected, actual);
     }
 
     @Test
-    public void testGetStatus(){
+    public void testGetStatus() {
         Status expected = Status.NEW;
         Status actual = task1.getStatus();
-        Assertions.assertEquals(expected,actual);
+        Assertions.assertEquals(expected, actual);
     }
 
     @Test
-    public void testSetTitle(){
+    public void testSetTitle() {
         String expected = "Помыть потолок";
         task1.setTitle("Помыть потолок");
         String actual = task1.getTitle();
-        Assertions.assertEquals(expected,actual);
+        Assertions.assertEquals(expected, actual);
     }
 
     @Test
-    public void testSetDescription(){
+    public void testSetDescription() {
         String expected = "Зачем его мыть?";
         task1.setDescription("Зачем его мыть?");
         String actual = task1.getDescription();
-        Assertions.assertEquals(expected,actual);
+        Assertions.assertEquals(expected, actual);
     }
 
     @Test
-    public void testSetStatus(){
+    public void testSetStatus() {
         Status expected = Status.DONE;
         task1.setStatus(Status.DONE);
         Status actual = task1.getStatus();
-        Assertions.assertEquals(expected,actual);
+        Assertions.assertEquals(expected, actual);
     }
 }
