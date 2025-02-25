@@ -5,6 +5,7 @@ import model.Subtask;
 import model.Task;
 
 import java.util.List;
+import java.util.Set;
 
 public interface TaskManager {
 
@@ -47,4 +48,6 @@ public interface TaskManager {
     void removeEpicById(int epicId);
 
     List<Subtask> getSubtasksOfEpic(int epicId);
+
+    Set<Task> getTaskByPriority();
 }

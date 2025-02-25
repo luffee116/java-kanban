@@ -17,19 +17,14 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     private void save() throws ManagerSaveException {
-        final String title = "id,type,name,status,description,epic\n";
+        final String title = "id,type,name,status,description,epic, duration, timeStart,TimeEnd\n";
         List<String> list = new ArrayList<>();
         list.add(title);
 
-        for (Task task : getAllTasks()) {
-            list.add(task.formatToCVS());
-        }
-        for (Epic epic : getAllEpics()) {
-            list.add(epic.formatToCVS());
-        }
-        for (Subtask subtask : getAllSubtasks()) {
-            list.add(subtask.formatToCVS());
-        }
+        getAllTasks().forEach(task -> list.add(task.formatToCVS()));
+        getAllEpics().forEach(epic -> list.add(epic.formatToCVS()));
+        getAllSubtasks().forEach(subtask -> list.add(subtask.formatToCVS()));
+
         saveToCVS(list);
     }
 
