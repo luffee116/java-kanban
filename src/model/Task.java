@@ -13,7 +13,6 @@ public class Task {
     Status status;
     Duration duration;
     LocalDateTime timeStart;
-    LocalDateTime timeEnd;
 
     public String formatToCVS() {
         return String.format("%s,%s,%s,%s,%s,%s,%s,%s\n",
@@ -24,7 +23,7 @@ public class Task {
                 getDescription(),
                 duration.toMinutes(),
                 timeStart.format(DTF.getDTF()),
-                timeEnd.format(DTF.getDTF()));
+                getTimeEnd().format(DTF.getDTF()));
     }
 
     public Task(String title,
@@ -37,7 +36,6 @@ public class Task {
         this.status = status;
         this.duration = duration;
         this.timeStart = timeStart;
-        timeEnd = timeStart.plus(duration);
     }
 
     public Task(int id,
@@ -52,7 +50,6 @@ public class Task {
         this.status = status;
         this.timeStart = timeStart;
         this.duration = duration;
-        timeEnd = timeStart.plus(duration);
     }
 
     public String getTitle() {
@@ -109,12 +106,15 @@ public class Task {
                 ", status=" + status +
                 ", duration=" + duration.toMinutes() +
                 ", timeStart=" + timeStart.format(DTF.getDTF()) +
-                ", timeEnd=" + timeEnd.format(DTF.getDTF()) +
+                ", timeEnd=" + getTimeEnd().format(DTF.getDTF()) +
                 '}';
     }
 
     public LocalDateTime getTimeEnd() {
-        return timeEnd;
+        if (timeStart != null && duration != null) {
+            return timeStart.plus(duration);
+        }
+        return null;
     }
 
     public LocalDateTime getTimeStart() {
@@ -131,9 +131,5 @@ public class Task {
 
     public void setTimeStart(LocalDateTime timeStart) {
         this.timeStart = timeStart;
-    }
-
-    public void setTimeEnd(LocalDateTime timeEnd) {
-        this.timeEnd = timeEnd;
     }
 }

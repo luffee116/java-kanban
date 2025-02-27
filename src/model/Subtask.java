@@ -51,7 +51,7 @@ public class Subtask extends Task {
                 ", status=" + status +
                 ", duration=" + duration.toMinutes() +
                 ", timeStart=" + timeStart.format(DTF.getDTF()) +
-                ", timeEnd=" + timeEnd.format(DTF.getDTF()) +
+                ", timeEnd=" + getTimeEnd().format(DTF.getDTF()) +
                 '}';
     }
 }

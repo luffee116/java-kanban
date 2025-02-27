@@ -72,6 +72,7 @@ public class Main {
         taskManager.createSubtask(subTask2);
         taskManager.createSubtask(subTask3);
 
+
         System.out.println("taskManager:");
         printAllTasks(taskManager);
 
