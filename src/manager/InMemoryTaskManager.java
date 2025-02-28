@@ -56,8 +56,8 @@ public class InMemoryTaskManager implements TaskManager {
             tasksByPriority.remove(subtask);
         });
         epics.forEach((id, epic) -> {
-            history.remove(id);
-            tasksByPriority.remove(epic);
+            epic.removeAllSubtasksID(); //UPDATED
+            updateEpicStatus(epic); //UPDATED
             updateEpicTime(epic);
         });
         subtasks.clear();
@@ -65,10 +65,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void removeAllEpics() {
-        epics.forEach((id, epic) -> {
-            history.remove(id);
-            tasksByPriority.remove(epic);
-        });
+        epics.keySet().forEach(history::remove); // UPDATED
         subtasks.forEach((id, subtask) -> {
             history.remove(id);
             tasksByPriority.remove(subtask);
@@ -138,17 +135,18 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void updateTask(Task task) {
-        if (!tasks.containsKey(task.getId())) {
+    public void updateTask(Task newTask) {
+        if (!tasks.containsKey(newTask.getId())) {
             return;
         }
         try {
-            validateTask(task);
+            validateTask(newTask);
         } catch (InvalidTaskTimeException e) {
             throw new RuntimeException(e);
         }
-        tasks.put(task.getId(), task);
-        tasksByPriority.add(task);
+        tasksByPriority.remove(tasks.get(newTask.getId())); // UPDATED
+        tasks.put(newTask.getId(), newTask);
+        tasksByPriority.add(newTask);
     }
 
     @Override
@@ -240,9 +238,9 @@ public class InMemoryTaskManager implements TaskManager {
         Epic epic = epics.get(epicId);
         if (epic != null) {
             for (int subtaskId : epic.getSubtasksId()) {
+                tasksByPriority.remove(subtasks.get(subtaskId)); // UPDATED
                 subtasks.remove(subtaskId);
                 history.remove(subtaskId);
-                tasksByPriority.remove(subtasks.get(subtaskId));
             }
             epics.remove(epicId);
             history.remove(epicId);
@@ -322,10 +320,12 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     private LocalDateTime getMinimalTime(Epic epic) {
-        return getSubtasksOfEpic(epic.getId()).stream().map(Task::getTimeStart).min(Comparator.naturalOrder()).orElse(null);
+        return getSubtasksOfEpic(epic.getId()).stream().map(Task::getTimeStart).filter(Objects::nonNull).min(Comparator.naturalOrder()).orElse(null);
+
+        //return getSubtasksOfEpic(epic.getId()).stream().map(Task::getTimeStart).min(Comparator.naturalOrder()).orElse(null);
     }
 
     private LocalDateTime getMaximalTime(Epic epic) {
-        return getSubtasksOfEpic(epic.getId()).stream().map(Task::getTimeEnd).max(Comparator.naturalOrder()).orElse(null);
+        return getSubtasksOfEpic(epic.getId()).stream().map(Task::getTimeEnd).filter(Objects::nonNull).max(Comparator.naturalOrder()).orElse(null);
     }
 }
