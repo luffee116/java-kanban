@@ -1,5 +1,9 @@
 package model;
 
+import util.DTF;
+
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Task {
@@ -7,22 +11,45 @@ public class Task {
     String title;
     String description;
     Status status;
+    Duration duration;
+    LocalDateTime timeStart;
 
     public String formatToCVS() {
-        return String.format("%s,%s,%s,%s,%s\n", getId(), TaskType.TASK, getTitle(), getStatus(), getDescription());
+        return String.format("%s,%s,%s,%s,%s,%s,%s,%s\n",
+                getId(),
+                TaskType.TASK,
+                getTitle(),
+                getStatus(),
+                getDescription(),
+                duration.toMinutes(),
+                timeStart.format(DTF.getDTF()),
+                getTimeEnd().format(DTF.getDTF()));
     }
 
-    public Task(String title, String description, Status status) {
+    public Task(String title,
+                String description,
+                Status status,
+                Duration duration,
+                LocalDateTime timeStart) {
         this.title = title;
         this.description = description;
         this.status = status;
+        this.duration = duration;
+        this.timeStart = timeStart;
     }
 
-    public Task(int id, String title, String description, Status status) {
+    public Task(int id,
+                String title,
+                String description,
+                Status status,
+                Duration duration,
+                LocalDateTime timeStart) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.status = status;
+        this.timeStart = timeStart;
+        this.duration = duration;
     }
 
     public String getTitle() {
@@ -72,12 +99,37 @@ public class Task {
 
     @Override
     public String toString() {
-        return "model.Task {" +
-                " Название = '" + title + '\'' +
-                ", Описание = '" + description + '\'' +
-                ", id = " + id +
-                ", Статус = " + status +
+        return "Task{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", status=" + status +
+                ", duration=" + duration.toMinutes() +
+                ", timeStart=" + timeStart.format(DTF.getDTF()) +
+                ", timeEnd=" + getTimeEnd().format(DTF.getDTF()) +
                 '}';
     }
 
+    public LocalDateTime getTimeEnd() {
+        if (timeStart != null && duration != null) {
+            return timeStart.plus(duration);
+        }
+        return null;
+    }
+
+    public LocalDateTime getTimeStart() {
+        return timeStart;
+    }
+
+    public Duration getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Duration duration) {
+        this.duration = duration;
+    }
+
+    public void setTimeStart(LocalDateTime timeStart) {
+        this.timeStart = timeStart;
+    }
 }

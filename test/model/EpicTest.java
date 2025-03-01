@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 class EpicTest {
@@ -14,10 +16,10 @@ class EpicTest {
 
     @BeforeEach
     public void init() {
-        epic1 = new Epic(1, "Гигиена", "Гигиена", Status.NEW);
-        epic2 = new Epic("Досуг", "Досуг");
-        subtask1 = new Subtask(3, "Почистить зубы", "Тщательно", Status.DONE, epic1.getId());
-        subtask2 = new Subtask(4, "Посмотреть кино", "Ужасы", Status.NEW, epic2.getId());
+        epic1 = new Epic(1, "Гигиена", "Гигиена", Status.NEW, Duration.ofMinutes(10), LocalDateTime.of(2002, 1, 25, 10, 0));
+        epic2 = new Epic(2, "Досуг", "Досуг");
+        subtask1 = new Subtask(3, "Почистить зубы", "Тщательно", Status.DONE, epic1.getId(), Duration.ofMinutes(10), LocalDateTime.of(2025, 1, 20, 13, 0));
+        subtask2 = new Subtask(4, "Посмотреть кино", "Ужасы", Status.NEW, epic2.getId(), Duration.ofMinutes(10), LocalDateTime.of(2025, 10, 1, 10, 0));
     }
 
     @Test

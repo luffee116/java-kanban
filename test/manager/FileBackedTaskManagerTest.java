@@ -11,6 +11,8 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.Duration;
+import java.time.LocalDateTime;
 
 public class FileBackedTaskManagerTest {
     private Path path;
@@ -35,11 +37,15 @@ public class FileBackedTaskManagerTest {
         task1 = new Task(
                 "Помыть посуду",
                 "Просушить",
-                Status.DONE);
+                Status.DONE,
+                Duration.ofMinutes(10),
+                LocalDateTime.of(2025, 2, 25, 10, 0));
         task2 = new Task(
                 "Покормить собаку",
                 "Сухой корм",
-                Status.NEW);
+                Status.NEW,
+                Duration.ofMinutes(10),
+                LocalDateTime.of(2025, 2, 25, 11, 0));
         epic1 = new Epic(
                 "Уборка дома",
                 "Генеральная");
@@ -51,18 +57,25 @@ public class FileBackedTaskManagerTest {
                 "Помыть полы",
                 "Сухая и влажная уборка",
                 Status.IN_PROGRESS,
-                3);
+                3,
+                Duration.ofMinutes(10),
+                LocalDateTime.of(2025, 2, 25, 12, 0));
         subtask2 = new Subtask(
                 6,
                 "Помыть окна",
                 "Использовать химию",
                 Status.NEW,
-                3);
+                3,
+                Duration.ofMinutes(10),
+                LocalDateTime.of(2025, 2, 25, 13, 0));
         subtask3 = new Subtask(
                 7,
                 "Пропылесосить коврики",
                 "Заплатить мастеру",
-                Status.DONE, 4);
+                Status.DONE,
+                4,
+                Duration.ofMinutes(10),
+                LocalDateTime.of(2025, 2, 25, 14, 0));
     }
 
     @Test

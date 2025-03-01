@@ -4,14 +4,17 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+
 class SubtaskTest {
     private Subtask subtask1;
     private Subtask subtask2;
 
     @BeforeEach
     public void init() {
-        subtask1 = new Subtask(1, "Test", "Test", Status.NEW, 1);
-        subtask2 = new Subtask(1, "Another", "Another", Status.DONE, 2);
+        subtask1 = new Subtask(1, "Test", "Test", Status.NEW, 1, Duration.ofMinutes(10), LocalDateTime.of(2025, 1, 1, 1, 1));
+        subtask2 = new Subtask(1, "Another", "Another", Status.DONE, 2, Duration.ofMinutes(1), LocalDateTime.of(2025, 1, 2, 2, 2));
     }
 
     @Test
