@@ -37,7 +37,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public List<Epic> getAllEpics() {
-        return new ArrayList<>(epics.values());
+        return epics.values().stream().toList();
     }
 
     @Override
@@ -117,21 +117,26 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public Task getTaskById(int idTask) {
+    public Optional<Task> getTaskById(int idTask) {
         history.add(tasks.get(idTask));
-        return tasks.get(idTask);
+        Task task = tasks.get(idTask);
+
+        return task != null ? Optional.of(task) : Optional.empty();
     }
 
     @Override
-    public Epic getEpicById(int epicId) {
+    public Optional<Epic> getEpicById(int epicId) {
+        Epic epic = epics.get(epicId);
         history.add(epics.get(epicId));
-        return epics.get(epicId);
+
+        return epic != null ? Optional.of(epic) : Optional.empty();
     }
 
     @Override
-    public Subtask getSubtaskById(int subtaskId) {
+    public Optional<Subtask> getSubtaskById(int subtaskId) {
         history.add(subtasks.get(subtaskId));
-        return subtasks.get(subtaskId);
+        Subtask subtask = subtasks.get(subtaskId);
+        return subtask != null ? Optional.of(subtask) : Optional.empty();
     }
 
     @Override
@@ -321,8 +326,6 @@ public class InMemoryTaskManager implements TaskManager {
 
     private LocalDateTime getMinimalTime(Epic epic) {
         return getSubtasksOfEpic(epic.getId()).stream().map(Task::getTimeStart).filter(Objects::nonNull).min(Comparator.naturalOrder()).orElse(null);
-
-        //return getSubtasksOfEpic(epic.getId()).stream().map(Task::getTimeStart).min(Comparator.naturalOrder()).orElse(null);
     }
 
     private LocalDateTime getMaximalTime(Epic epic) {
