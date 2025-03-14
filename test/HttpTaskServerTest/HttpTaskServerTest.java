@@ -719,7 +719,7 @@ public class HttpTaskServerTest {
 
         int expectedCode = 200;
         int actualCode = response2.statusCode();
-        Assertions.assertEquals(expectedCode,actualCode);
+        Assertions.assertEquals(expectedCode, actualCode);
         String expectedBody = "[Epic{ id=1, title='SECOND', description='second', status=NEW, duration= , timeStart= , timeEnd= }]";
         String actualBody = taskManager.getAllEpics().toString();
         Assertions.assertEquals(expectedBody, actualBody);

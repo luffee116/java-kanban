@@ -145,7 +145,7 @@ public class EpicsHandler extends BaseHttpHandler {
         return new Epic(id, epic.getTitle(), epic.getDescription());
     }
 
-    public Epic epicConverterWithoutId(Epic epic){
+    public Epic epicConverterWithoutId(Epic epic) {
         return new Epic(epic.getTitle(), epic.getDescription());
     }
 
