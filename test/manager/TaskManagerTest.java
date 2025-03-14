@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 public abstract class TaskManagerTest<T extends TaskManager> {
     protected abstract T createManager();
@@ -81,7 +82,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         taskManager.createEpic(epic1);
         Subtask subtaskTest = new Subtask("Test", "test", Status.NEW, epic1.getId(), Duration.ofMinutes(10), LocalDateTime.of(2002, 2, 2, 2, 2));
         taskManager.createSubtask(subtaskTest);
-        String actually = taskManager.getSubtaskById(subtaskTest.getId()).toString();
+        String actually = taskManager.getSubtaskById(subtaskTest.getId()).get().toString();
         String expected = "Subtask{epicID=1, id=2, title='Test', description='test', status=NEW, duration=10, timeStart=02:02:00/02.02.2002, timeEnd=02:12:00/02.02.2002}";
         Assertions.assertEquals(expected, actually);
     }
@@ -89,7 +90,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     @Test
     public void testGetTask() {
         taskManager.createTask(task1);
-        String actually = taskManager.getTaskById(task1.getId()).toString();
+        String actually = taskManager.getTaskById(task1.getId()).get().toString();
         String expected = "Task{id=1, title='Хлеб', description='Купить', status=NEW, duration=20, timeStart=13:30:00/25.02.2025, timeEnd=13:50:00/25.02.2025}";
         Assertions.assertEquals(expected, actually);
     }
@@ -100,7 +101,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         String expected = "Task{id=1, title='Хлеб', description='Купить', status=NEW, duration=9, timeStart=01:01:00/01.01.2025, timeEnd=01:10:00/01.01.2025}";
         Task task = new Task(1, "Хлеб", "Купить", Status.NEW, Duration.ofMinutes(9), LocalDateTime.of(2025, 1, 1, 1, 1));
         taskManager.updateTask(task);
-        String actually = taskManager.getTaskById(1).toString();
+        String actually = taskManager.getTaskById(1).get().toString();
         Assertions.assertEquals(expected, actually);
     }
 
@@ -145,9 +146,11 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     @Test
     public void testUpdateEpic() {
         taskManager.createEpic(epic1);
-        Epic epic = taskManager.getEpicById(epic1.getId());
-        epic.setTitle("Test");
-        taskManager.updateEpic(epic);
+        Optional<Epic> epic = taskManager.getEpicById(epic1.getId());
+        epic.ifPresent(tmp -> {
+            tmp.setTitle("Test");
+            taskManager.updateEpic(tmp);
+        });
         String expected = "[Epic{ id=1, title='Test', description='First', status=NEW, duration=60, timeStart=08:00:00/26.02.2025, timeEnd=09:00:00/26.02.2025}]";
         String actual = taskManager.getAllEpics().toString();
         Assertions.assertEquals(expected, actual);
@@ -176,11 +179,10 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     @Test
     public void testUpdateSubtask() {
         taskManager.createEpic(epic1);
-
         Subtask subtask = new Subtask("First", "First", Status.NEW, epic1.getId(), Duration.ofMinutes(20), LocalDateTime.of(2025, 10, 20, 1, 1));
         taskManager.createSubtask(subtask);
-        Subtask subtask1 = taskManager.getSubtaskById(subtask.getId());
-        subtask1.setTitle("Test");
+        Optional<Subtask> subtask1 = taskManager.getSubtaskById(subtask.getId());
+        subtask1.ifPresent(sub -> sub.setTitle("Test"));
         String expected = "[Subtask{epicID=1, id=2, title='Test', description='First', status=NEW, duration=20, timeStart=01:01:00/20.10.2025, timeEnd=01:21:00/20.10.2025}]";
         String actual = taskManager.getAllSubtasks().toString();
         Assertions.assertEquals(expected, actual);

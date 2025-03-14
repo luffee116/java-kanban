@@ -13,6 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 public class FileBackedTaskManagerTest {
     private Path path;
@@ -106,9 +107,11 @@ public class FileBackedTaskManagerTest {
     @Test
     void testUpdateTask() {
         taskManager.createTask(task1);
-        Task task = taskManager.getTaskById(1);
-        task.setTitle("test");
-        taskManager.updateTask(task);
+        Optional<Task> task = taskManager.getTaskById(1);
+        task.ifPresent(value -> {
+            value.setTitle("test");
+            taskManager.updateTask(value);
+        });
         TaskManager loadedFromFile = Manager.loadFromFile(path.toFile());
         String expected = taskManager.getAllTasks().toString();
         String actually = loadedFromFile.getAllTasks().toString();
@@ -122,9 +125,11 @@ public class FileBackedTaskManagerTest {
         taskManager.createEpic(epic1);
         taskManager.createEpic(epic2);
         taskManager.createSubtask(subtask1);
-        Subtask tmp = taskManager.getSubtaskById(subtask1.getId());
-        tmp.setTitle("test");
-        taskManager.updateSubtask(tmp);
+        Optional<Subtask> tmp = taskManager.getSubtaskById(subtask1.getId());
+        tmp.ifPresent(subtask -> {
+            subtask.setTitle("test");
+            taskManager.updateSubtask(subtask);
+        });
         TaskManager loaded = Manager.loadFromFile(path.toFile());
         Assertions.assertEquals(taskManager.getAllSubtasks().toString(), loaded.getAllSubtasks().toString());
     }
@@ -136,8 +141,8 @@ public class FileBackedTaskManagerTest {
         taskManager.createEpic(epic1);
         taskManager.createEpic(epic2);
         taskManager.createSubtask(subtask1);
-        Epic tmp = taskManager.getEpicById(epic1.getId());
-        taskManager.updateEpic(tmp);
+        Optional<Epic> tmp = taskManager.getEpicById(epic1.getId());
+        tmp.ifPresent(epic -> taskManager.updateEpic(epic));
         TaskManager loaded = Manager.loadFromFile(path.toFile());
         Assertions.assertEquals(taskManager.getAllEpics().toString(), loaded.getAllEpics().toString());
         Assertions.assertEquals(taskManager.getAllSubtasks().toString(), loaded.getAllSubtasks().toString());
