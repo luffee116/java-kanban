@@ -263,6 +263,11 @@ public class InMemoryTaskManager implements TaskManager {
         return new LinkedHashSet<>(tasksByPriority);
     }
 
+    @Override
+    public int getLastId() {
+        return id-1;
+    }
+
     protected void addTaskFromFile(String[] lines, TaskType taskType, Status status) {
         switch (taskType) {
             case TASK -> tasks.put(Integer.parseInt(lines[0]), new Task(Integer.parseInt(lines[0]),

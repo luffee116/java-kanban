@@ -37,7 +37,13 @@ public class EpicsHandler extends BaseHttpHandler {
                     getEpicSubtasks(exchange);
                 }
             }
-            case POST -> createEpic(exchange);
+            case POST -> {
+                if (path.length == 2) {
+                    createEpic(exchange);
+                } else if (path.length == 3) {
+                    updateEpic(exchange);
+                }
+            }
             case DELETE -> deleteEpic(exchange);
         }
     }
@@ -89,8 +95,8 @@ public class EpicsHandler extends BaseHttpHandler {
             Optional<Integer> id = getId(exchange);
 
             if (epicOptional.isPresent() && id.isEmpty()) {
-                taskManager.createEpic(epicConverter(epicOptional.get()));
-                sendText(exchange, "Задача добавлена", HttpURLConnection.HTTP_CREATED);
+                taskManager.createEpic(epicConverterWithoutId(epicOptional.get()));
+                sendText(exchange, "Задача добавлена, присвоенный id = " + taskManager.getLastId(), HttpURLConnection.HTTP_CREATED);
             }
         }
         sendText(exchange, "Неверный формат запроса", HttpURLConnection.HTTP_INTERNAL_ERROR);
@@ -110,7 +116,36 @@ public class EpicsHandler extends BaseHttpHandler {
         }
     }
 
-    public Epic epicConverter(Epic epic) {
+    public void updateEpic(HttpExchange exchange) throws IOException {
+        if (checkHeadersOfRequest(exchange)) {
+            InputStream inputStream = exchange.getRequestBody();
+            Optional<Integer> id = getId(exchange);
+            if (id.isPresent()) {
+                if (taskManager.getEpicById(id.get()).isPresent()) {
+                    Optional<Epic> updateEpic = parseEpic(inputStream);
+                    if (updateEpic.isPresent()) {
+                        taskManager.updateEpic(epicConverter(id.get(), updateEpic.get()));
+                        sendText(exchange, "Задача обновлена", HttpURLConnection.HTTP_OK);
+                    } else {
+                        sendText(exchange, "Неверный формат эпика", HttpURLConnection.HTTP_INTERNAL_ERROR);
+                    }
+                } else {
+                    sendText(exchange, "Эпик с id = " + id.get() + " не найден", HttpURLConnection.HTTP_NOT_FOUND);
+                }
+            } else {
+                sendText(exchange, "Неверный формат id", HttpURLConnection.HTTP_INTERNAL_ERROR);
+            }
+        } else {
+            sendText(exchange, "Неверный формат запроса", HttpURLConnection.HTTP_NOT_FOUND);
+        }
+
+    }
+
+    public Epic epicConverter(Integer id, Epic epic) {
+        return new Epic(id, epic.getTitle(), epic.getDescription());
+    }
+
+    public Epic epicConverterWithoutId(Epic epic){
         return new Epic(epic.getTitle(), epic.getDescription());
     }
 

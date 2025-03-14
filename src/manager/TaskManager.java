@@ -51,4 +51,6 @@ public interface TaskManager {
     List<Subtask> getSubtasksOfEpic(int epicId);
 
     Set<Task> getTaskByPriority();
+
+    int getLastId();
 }

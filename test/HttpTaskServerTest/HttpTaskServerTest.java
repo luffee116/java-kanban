@@ -696,4 +696,32 @@ public class HttpTaskServerTest {
         String actualBody = response3.body();
         Assertions.assertEquals(expectedBody, actualBody);
     }
+
+    @Test
+    public void testUpdateEpic() throws IOException, InterruptedException {
+        Epic epic1 = new Epic("FIRST", "first");
+        String request = gson.toJson(epic1);
+        HttpRequest postRequest1 = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:8080/epics"))
+                .headers("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(request))
+                .build();
+        httpClient.send(postRequest1, HttpResponse.BodyHandlers.ofString());
+
+        Epic epic2 = new Epic("SECOND", "second");
+        String request2 = gson.toJson(epic2);
+        HttpRequest postRequest2 = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:8080/epics/1"))
+                .headers("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(request2))
+                .build();
+        HttpResponse<String> response2 = httpClient.send(postRequest2, HttpResponse.BodyHandlers.ofString());
+
+        int expectedCode = 200;
+        int actualCode = response2.statusCode();
+        Assertions.assertEquals(expectedCode,actualCode);
+        String expectedBody = "[Epic{ id=1, title='SECOND', description='second', status=NEW, duration= , timeStart= , timeEnd= }]";
+        String actualBody = taskManager.getAllEpics().toString();
+        Assertions.assertEquals(expectedBody, actualBody);
+    }
 }

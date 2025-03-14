@@ -73,10 +73,10 @@ public class SubtasksHandler extends BaseHttpHandler {
 
             if (id.isEmpty()) {
                 if (subtask.isPresent()) {
-                    if (subtask.get().getEpicID() != 0) {
+                    if (subtask.get().getEpicID() != 0 && taskManager.getAllEpics().stream().anyMatch(epic -> epic.getId() == subtask.get().getEpicID())) {
                         try {
                             taskManager.createSubtask(subtask.get());
-                            sendText(httpExchange, "Задача добавлена", HttpURLConnection.HTTP_CREATED);
+                            sendText(httpExchange, "Задача добавлена, присвоенный id = " + taskManager.getLastId(), HttpURLConnection.HTTP_CREATED);
                         } catch (Exception e) {
                             sendText(httpExchange, "Задача пересекается с другой", HttpURLConnection.HTTP_NOT_ACCEPTABLE);
                         }
