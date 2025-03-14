@@ -265,7 +265,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public int getLastId() {
-        return id-1;
+        return id - 1;
     }
 
     protected void addTaskFromFile(String[] lines, TaskType taskType, Status status) {
